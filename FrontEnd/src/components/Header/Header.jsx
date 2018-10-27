@@ -114,9 +114,9 @@ class Header extends React.Component {
   render() {
 
       const options = [
-          { value: 'chocolate', label: 'Chocolate' },
-          { value: 'strawberry', label: 'Strawberry' },
-          { value: 'vanilla', label: 'Vanilla' }
+          { value: 'PHP', label: 'PHP' },
+          { value: 'JAVA', label: 'Java' },
+          { value: 'Python', label: 'Python' }
       ];
     return (
       // add or remove classes depending if we are on full-screen-maps page or not

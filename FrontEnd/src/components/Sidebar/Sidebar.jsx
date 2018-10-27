@@ -46,7 +46,7 @@ class Sidebar extends React.Component {
             href="https://www.creative-tim.com"
             className="simple-text logo-normal"
           >
-            Creative Tim
+            GitHub Analytics
           </a>
         </div>
         <div className="sidebar-wrapper" ref="sidebar">

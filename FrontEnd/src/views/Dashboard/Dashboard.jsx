@@ -179,7 +179,7 @@ class Dashboard extends React.Component {
           <Col xs={12} sm={12} md={4}>
             <Card>
               <CardHeader>
-                <CardTitle>Issues Statistics</CardTitle>
+                <CardTitle>Commit Statistics</CardTitle>
                 <p className="card-category">Last 24 months</p>
               </CardHeader>
               <CardBody>
@@ -190,17 +190,17 @@ class Dashboard extends React.Component {
               </CardBody>
               <CardFooter>
                 <div className="legend">
-                  <i className="fa fa-circle text-primary" /> Opened{" "}
-                  <i className="fa fa-circle text-warning" /> Read{" "}
-                  <i className="fa fa-circle text-danger" /> Deleted{" "}
-                  <i className="fa fa-circle text-gray" /> Unopened
+                  <i className="fa fa-circle text-primary" /> PHP{" "}
+                  <i className="fa fa-circle text-warning" /> Java{" "}
+                  <i className="fa fa-circle text-danger" /> Python{" "}
+                  <i className="fa fa-circle text-gray" /> Autres
                 </div>
                 <hr />
                 <Stats>
                   {[
                     {
                       i: "fas fa-calendar-alt",
-                      t: " Number of emails sent"
+                      t: " Number of commit made the last 24 months"
                     }
                   ]}
                 </Stats>
