@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "windows"] */
 const fetch = require('node-fetch');
 
 class ResponseError extends Error {
@@ -10,7 +11,7 @@ class ResponseError extends Error {
 }
 
 class Github {
-  constructor({ token, baseUrl = 'https://api.github.com' } = {}) {
+  constructor({ token, baseUrl = 'https://api.github.com/' } = {}) {
     this.token = token;
     this.baseUrl = baseUrl;
   }
@@ -20,6 +21,7 @@ class Github {
   }
 
   request(path, opts = {}) {
+    // Parametres des requetes
     const url = `${this.baseUrl}${path}`;
     const options = {
       ...opts,
@@ -49,7 +51,7 @@ class Github {
   }
 
   reposLanguages(name) {
-      return this.request(`/repos/${name}/languages`);
+    return this.request(`/repos/${name}/languages`);
   }
 
   userLanguages(username) {
@@ -58,6 +60,21 @@ class Github {
         const getLanguages = repo => this.reposLanguages(repo.full_name);
         return Promise.all(repos.map(getLanguages));
       });
+  }
+
+  swissUsers() {
+    return this.request('search/users?q=+location:Switzerland');
+  }
+
+  nbSwissRepos() {
+    // Recueillir les utilisateurs suisses
+    let users = this.swissUsers();
+    // Compter leur repos et retourner la somme
+    let array = JSON.parse(users);
+  }
+
+  langagesSwiss() {
+    return "Not Implemented Yet!"; 
   }
 }
 module.exports = Github;

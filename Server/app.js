@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const Github = require('./src/Github');
 
-const client = new Github({token: process.env.OAUTH_TOKEN });
+const client = new Github({ token: process.env.OAUTH_TOKEN });
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -12,9 +12,13 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 
 app.get('/', (req, res, next) => {
-  client.user(req.params.username)
-  .then(user => res.send(user))
-  .catch(next);
+  client.swissUsers()
+    .then(user => res.send(user))
+    .catch(next);
+});
+
+app.get('/langages', (req, res) => {
+  res.send(client.langagesSwiss());
 });
 
 // Forward 404 to error handler
@@ -35,20 +39,3 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Server listening at http://localhost:${port}`);
 });
-
-// Function to use for the pages
-function getSwissUsers() {
-  fetch('https://api.github.com/search/users?q=+location:Switzerland', {
-    headers: {
-      Accept: 'application/vnd.github.v3+json',
-    },
-  })
-    .then(result => result.json()
-      .then((data) => {
-        if (result.ok) {
-          res.send(data);
-        } else {
-          throw new Error('Ooops Error !');
-        }
-      })).catch(Error);
-}
