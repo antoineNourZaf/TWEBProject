@@ -18,6 +18,9 @@ import {
   Input
 } from "reactstrap";
 
+import Select from 'react-select'
+
+
 import dashboardRoutes from "routes/dashboard.jsx";
 
 class Header extends React.Component {
@@ -104,7 +107,17 @@ class Header extends React.Component {
       this.refs.sidebarToggle.classList.toggle("toggled");
     }
   }
+
+
+
+
   render() {
+
+      const options = [
+          { value: 'chocolate', label: 'Chocolate' },
+          { value: 'strawberry', label: 'Strawberry' },
+          { value: 'vanilla', label: 'Vanilla' }
+      ];
     return (
       // add or remove classes depending if we are on full-screen-maps page or not
       <Navbar
@@ -147,15 +160,8 @@ class Header extends React.Component {
             navbar
             className="justify-content-end"
           >
-            <form>
-              <InputGroup className="no-border">
-                <Input placeholder="Search..." />
-                <InputGroupAddon addonType="append">
-                  <InputGroupText>
-                    <i className="nc-icon nc-zoom-split" />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
+            <form style={{flex: 0.7}}>
+                    <Select options={options} />
             </form>
           </Collapse>
         </Container>
