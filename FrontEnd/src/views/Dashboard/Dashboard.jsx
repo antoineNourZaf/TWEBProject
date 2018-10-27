@@ -179,8 +179,8 @@ class Dashboard extends React.Component {
           <Col xs={12} sm={12} md={4}>
             <Card>
               <CardHeader>
-                <CardTitle>Email Statistics</CardTitle>
-                <p className="card-category">Last Campaign Performance</p>
+                <CardTitle>Issues Statistics</CardTitle>
+                <p className="card-category">Last 24 months</p>
               </CardHeader>
               <CardBody>
                 <Pie
@@ -210,8 +210,8 @@ class Dashboard extends React.Component {
           <Col xs={12} sm={12} md={8}>
             <Card className="card-chart">
               <CardHeader>
-                <CardTitle>NASDAQ: AAPL</CardTitle>
-                <p className="card-category">Line Chart With Points</p>
+                <CardTitle>Issues Statistics</CardTitle>
+                <p className="card-category">Last 24 month</p>
               </CardHeader>
               <CardBody>
                 <Line

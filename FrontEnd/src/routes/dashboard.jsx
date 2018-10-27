@@ -3,7 +3,7 @@ import Dashboard from "views/Dashboard/Dashboard.jsx";
 var dashRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Statistics",
     icon: "nc-icon nc-bank",
     component: Dashboard
   },

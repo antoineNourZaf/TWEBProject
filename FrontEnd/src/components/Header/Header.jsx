@@ -161,7 +161,7 @@ class Header extends React.Component {
             className="justify-content-end"
           >
             <form style={{flex: 0.7}}>
-                    <Select options={options} />
+                    <Select isMulti options={options} />
             </form>
           </Collapse>
         </Container>
