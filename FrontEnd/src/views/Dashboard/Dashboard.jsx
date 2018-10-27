@@ -36,7 +36,7 @@ class Dashboard extends React.Component {
                   </Col>
                   <Col xs={7} md={8}>
                     <div className="numbers">
-                      <p className="card-category">Capacity</p>
+                      <p className="card-category">Nb Github account </p>
                       <CardTitle tag="p">150GB</CardTitle>
                     </div>
                   </Col>
@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
                   </Col>
                   <Col xs={7} md={8}>
                     <div className="numbers">
-                      <p className="card-category">Revenue</p>
+                      <p className="card-category">Nb Repository</p>
                       <CardTitle tag="p">$ 1,345</CardTitle>
                     </div>
                   </Col>
@@ -96,7 +96,7 @@ class Dashboard extends React.Component {
                   </Col>
                   <Col xs={7} md={8}>
                     <div className="numbers">
-                      <p className="card-category">Errors</p>
+                      <p className="card-category">Nb Commits</p>
                       <CardTitle tag="p">23</CardTitle>
                     </div>
                   </Col>
@@ -126,7 +126,7 @@ class Dashboard extends React.Component {
                   </Col>
                   <Col xs={7} md={8}>
                     <div className="numbers">
-                      <p className="card-category">Followers</p>
+                      <p className="card-category">Nb Lines of Codes</p>
                       <CardTitle tag="p">+45K</CardTitle>
                     </div>
                   </Col>
@@ -150,8 +150,8 @@ class Dashboard extends React.Component {
           <Col xs={12}>
             <Card>
               <CardHeader>
-                <CardTitle>Users Behavior</CardTitle>
-                <p className="card-category">24 Hours performance</p>
+                <CardTitle>Languages Popularity</CardTitle>
+                <p className="card-category">Nb active repository last 24 month</p>
               </CardHeader>
               <CardBody>
                 <Line
