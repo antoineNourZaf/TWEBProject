@@ -18,7 +18,10 @@ import {
   Input
 } from "reactstrap";
 
-import Select from 'react-select'
+import axios from 'axios'
+
+
+import Select from 'react-select';
 
 
 import dashboardRoutes from "routes/dashboard.jsx";
@@ -27,6 +30,7 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      languages:[],
       isOpen: false,
       dropdownOpen: false,
       color: "transparent"
@@ -96,6 +100,21 @@ class Header extends React.Component {
   }
   componentDidMount() {
     window.addEventListener("resize", this.updateColor.bind(this));
+    let initialLanguages=[];
+    fetch('http://localhost:9090/api/languages')
+        .then(response => {
+          return response.json();
+        }).then(data=>{
+
+        let optionsLanguages= data[0]["languagesUsedInSwitzerland"].map((option) =>option);
+
+
+        console.log(optionsLanguages);
+
+        this.setState({
+              languages: optionsLanguages,
+          });
+    });
   }
   componentDidUpdate(e) {
     if (
@@ -111,14 +130,23 @@ class Header extends React.Component {
 
 
 
+
   render() {
 
-      const options = [
-          { value: 'PHP', label: 'PHP' },
-          { value: 'JAVA', label: 'Java' },
-          { value: 'Python', label: 'Python' }
-      ];
-    return (
+
+
+    let languagesOptions = this.state.languages;
+    console.log(languagesOptions);
+
+    /*
+
+    let optionsItems = languages.map((language) =>
+        <option key={language}> {language}</option>
+    );
+
+*/
+
+       return (
       // add or remove classes depending if we are on full-screen-maps page or not
       <Navbar
         color={
@@ -161,7 +189,8 @@ class Header extends React.Component {
             className="justify-content-end"
           >
             <form style={{flex: 0.7}}>
-                    <Select isMulti options={options} />
+              <Select isMulti
+                  options={this.state.languages} />
             </form>
           </Collapse>
         </Container>

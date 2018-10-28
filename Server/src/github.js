@@ -158,6 +158,7 @@ class Github {
     /**
      * Function called until all the data are fetched.
      */
+
     function callDBLanguages() {
       
       mongoClient.connect(url)
@@ -168,6 +169,7 @@ class Github {
           db.close();
         })
     }
+
 
 
     callDBLanguages();
