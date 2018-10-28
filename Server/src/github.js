@@ -170,10 +170,11 @@ class Github {
         function callDBLanguages() {
 
 
-                languages.push("PHP");
-                languages.push("Pyhton");
-                languages.push("Perl");
-                languages.push("HTML");
+                languages.push({ label: "Php", value: 1 });
+                languages.push({ label: "Pyhton", value: 2 });
+            languages.push({ label: "Perl", value: 3 });
+            languages.push({ label: "HTML", value: 4 });
+
 
 
 
