@@ -20,14 +20,16 @@ app.get('/users', (req, res) => {
       for (let i = 0; i < users.length; i += 1) {
         logins.push(users[i].id);
       }
-      res.send(logins);
+      res.send(users);
     })
     .catch(next);
+    
+  //client.getTopUsersInSwitzerland();
 });
 
 app.get('/userCount', (req, res, next) => {
   client.swissUsers()
-    .then(user => res.send(user.total_count))
+    .then(user => res.send(user))
     .catch(next);
 });
 app.get('/langages', (req, res) => {

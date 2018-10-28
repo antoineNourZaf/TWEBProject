@@ -66,7 +66,7 @@ class Github {
               mongoClient.connect(url)
                 .then((client) => {
                   const db = client.db();
-                  const collection = db.collection('SwissStats');
+                  const collection = db.collection('User');
 
                   collection.insertOne({ idUser: usernameUser });
                   db.close();

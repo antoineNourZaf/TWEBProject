@@ -2,16 +2,13 @@
 const mongo = require('mongodb');
 const mongoClient = require('mongodb').MongoClient;
 
-const urlDB = 'A remplir';
-
+const urlDB = 'mongodb://localhost:27017/SwissStats';
 // Connexion
-mongoClient.connect(url)
-  .then((client) => {
-    const db = client.db();
-    const collection = db.collection('SwissStats');
-    console.log('db crée !')
-    db.close();
-  });
+mongoClient.connect(urlDB, function(err, db) {
+  if (err) throw err;
+  console.log('Database created!');
+  db.close();
 });
 
+console.log("Quelque chose arrive");
 module.exports = mongo;
