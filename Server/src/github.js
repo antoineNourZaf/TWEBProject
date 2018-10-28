@@ -162,7 +162,7 @@ class Github {
      */
     getLanguages(dataAreAvailable, noMoreData) {
 
-        const languages = {};
+        var languages = [];
 
         /**
          * Function called until all the data are fetched.
@@ -180,7 +180,7 @@ class Github {
                 dataAreAvailable(null, languages);
                 noMoreData();
 
-            
+
         }
 
 

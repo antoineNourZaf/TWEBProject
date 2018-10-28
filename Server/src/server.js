@@ -125,10 +125,10 @@ class Server {
                       result.write(`${JSON.stringify(prevChunk)},`);
                   }
 
-                  const repos = data;
+                  const languagesUsedInSwitzerland = data;
 
 
-                  prevChunk = { repos };
+                  prevChunk = { languagesUsedInSwitzerland };
               }
           }
 
