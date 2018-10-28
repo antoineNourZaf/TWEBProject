@@ -4,7 +4,7 @@
   "description": "Github analytics",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node src/param.js",
     "dev": "nodemon --watch app.js --watch src",
     "test": "mocha"
   },
@@ -20,8 +20,9 @@
   },
   "dependencies": {
     "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "node-fetch": "^2.2.0",
-    "dotenv": "^6.0.0"
+    "superagent": "^4.0.0-beta.5"
   }
 }
