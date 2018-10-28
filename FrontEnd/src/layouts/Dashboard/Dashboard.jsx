@@ -45,6 +45,7 @@ class Dashboard extends React.Component {
     this.setState({ backgroundColor: color });
   }
   render() {
+
     return (
       <div className="wrapper">
         <Sidebar
