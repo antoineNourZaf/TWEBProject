@@ -17,36 +17,6 @@ class Server {
     this.port = port;
     this.agent = agent;
 
-    this.app.get('/api/languages', (request, result) => {
-      result.setHeader('Content-Type', 'application/json');
-
-      result.write('[');
-
-      let prevChunk = null;
-
-      function sendData(error, data) {
-        if (error == null) {
-          if (prevChunk) {
-            result.write(`${JSON.stringify(prevChunk)},`);
-          }
-
-          const languages = Array.from(data);
-
-          prevChunk = { languages };
-        }
-      }
-
-      function endOfJson() {
-        if (prevChunk) {
-          result.write(JSON.stringify(prevChunk));
-        }
-        result.end(']');
-      }
-
-      this.agent.getLanguagesUserInSwitzerland(sendData, endOfJson);
-    });
-
-
 
       this.app.get('/api/users', (request, result) => {
           result.setHeader('Content-Type', 'application/json');

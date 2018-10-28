@@ -43,48 +43,7 @@ class Github {
         // Compter leur repos et retourner la somme
         const array = JSON.parse(users);
     }
-
-    /**
-     * Get all the opened issues.
-     * @param {function} dataAreAvailable The function to call when data are available.
-     * @param {function} noMoreData The function to call when there are no more data.
-     */
-    getLanguagesUserInSwitzerland(dataAreAvailable, noMoreData) {
-        const url = 'https://api.github.com/repos/dotnet/corefx/languages';
-
-        const languages = new Map();
-
-        /**
-         * Function called until all the data are fetched.
-         * @param {string} tragetUrl The GitHub's API URL.
-         * @param {JSON object with username and token} credentials  The credentials to use
-         * to query GitHub.
-         */
-        function fetchAndProcessData(tragetUrl, credentials) {
-            request
-                .get(tragetUrl)
-                .auth(credentials.username, credentials.token)
-                .end((errors, result) => {
-                    if (errors == null) {
-                        for (const language in result.body) {
-                            languages.set(language, 1);
-                        }
-
-                        dataAreAvailable(null, languages);
-
-                        if (result.links.next) {
-                            fetchAndProcessData(result.links.next, credentials);
-                        } else {
-                            noMoreData();
-                        }
-                    } else {
-                        noMoreData();
-                    }
-                });
-        }
-
-        fetchAndProcessData(url, this.credentials);
-    }
+    
 
 
     /**
