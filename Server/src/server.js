@@ -61,7 +61,7 @@ class Server {
                       result.write(`${JSON.stringify(prevChunk)},`);
                   }
 
-                  const users = Array.from(data);
+                  const users = data;
 
                   prevChunk = { users };
               }
@@ -77,7 +77,43 @@ class Server {
           this.agent.getTopUsersInSwitzerland(sendData, endOfJson);
       });
 
-    this.app.get('*', (request, result) => {
+
+      this.app.get('/api/repos/:owner', (request, result) => {
+          const owner  = request.params;
+          console.log(owner);
+
+          result.setHeader('Content-Type', 'application/json');
+
+          result.write('[');
+
+          let prevChunk = null;
+
+          function sendData(error, data) {
+              if (error == null) {
+                  if (prevChunk) {
+                      result.write(`${JSON.stringify(prevChunk)},`);
+                  }
+
+                  console.log(data);
+                  const repos = data;
+
+
+                  prevChunk = { repos };
+              }
+          }
+
+          function endOfJson() {
+              if (prevChunk) {
+                  result.write(JSON.stringify(prevChunk));
+              }
+              result.end(']');
+          }
+
+          this.agent.getUserRepository(owner, sendData, endOfJson);
+      });
+
+
+      this.app.get('*', (request, result) => {
         result.status(404).send('Error 404 - Page not found');
     });
   }

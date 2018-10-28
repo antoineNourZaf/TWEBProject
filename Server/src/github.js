@@ -91,7 +91,7 @@ class Github {
 
 
     /**
-     * Get all the opened issues.
+     * Get top 50 users in switzerland .
      * @param {function} dataAreAvailable The function to call when data are available.
      * @param {function} noMoreData The function to call when there are no more data.
      */
@@ -113,19 +113,92 @@ class Github {
                 .end((errors, result) => {
                     if (errors == null) {
 
-                        const usersCollection = db.collection('users');
+                        //const usersCollection = db.collection('users');
 
                         for (var user in result.body.items)
                         {
-                          console.log(i++);
                            console.log(result.body.items[user].id);
+                           console.log(result.body.items[user].login);
+                           var idUser = result.body.items[user].id;
+                           var usernameUser = result.body.items[user].login;
+                           //collection.insertOne({ idUser : usernameUser });
                         }
 
 
                         dataAreAvailable(null,  users );
 
+
                         noMoreData();
 
+                    } else {
+                        noMoreData();
+                    }
+                });
+        }
+
+        fetchAndProcessData(url, this.credentials);
+    }
+
+
+    /**
+     * Get all user's repositories
+     * @param {string} owner The repositories owner
+     * @param {function} dataAreAvailable The function to call when data are available.
+     * @param {function} noMoreData The function to call when there are no more data.
+     */
+    getUserRepository(owner, dataAreAvailable, noMoreData) {
+
+        const url = `https://api.github.com/search/repositories?q=@${owner["owner"]}`;
+
+        const  repos= new Map();
+        var languages = new Map();
+        var i=0;
+
+        /**
+         * Function called until all the data are fetched.
+         * @param {string} tragetUrl The GitHub's API URL.
+         * @param {JSON object with username and token} credentials  The credentials to use
+         * to query GitHub.
+         */
+        function fetchAndProcessData(tragetUrl, credentials) {
+            request
+                .get(tragetUrl)
+                .auth(credentials.username, credentials.token)
+                .end((errors, result) => {
+                    if (errors == null) {
+
+
+                        for (var repo in result.body.items)
+                        {
+                          if(repos[result.body.items[repo]["language"]]==null)
+                          {
+                              repos[result.body.items[repo]["language"]]={openIssue:result.body.items[repo]["open_issues_count"],forks:result.body.items[repo]["forks"],watchers:result.body.items[repo]["watchers"],nbProject:1};
+
+                          }
+
+                          else {
+
+                              repos[result.body.items[repo]["language"]] = {
+                                  openIssue: repos[result.body.items[repo]["language"]]["openIssue"] + result.body.items[repo]["open_issues_count"],
+                                  forks: repos[result.body.items[repo]["language"]]["forks"] + result.body.items[repo]["forks"],
+                                  watchers: repos[result.body.items[repo]["language"]]["watchers"] + result.body.items[repo]["watchers"],
+                                  nbProject: repos[result.body.items[repo]["language"]]["nbProject"] + 1
+                              };
+                          }
+
+                        }
+
+
+                        dataAreAvailable(null,  repos );
+
+
+
+                        if (result.links.next) {
+                            fetchAndProcessData(result.links.next, credentials);
+                        } else {
+                            console.log(repos);
+                            noMoreData();
+                        }
                     } else {
                         noMoreData();
                     }
