@@ -46,6 +46,37 @@ class Server {
       this.agent.getLanguagesUserInSwitzerland(sendData, endOfJson);
     });
 
+
+
+      this.app.get('/api/users', (request, result) => {
+          result.setHeader('Content-Type', 'application/json');
+
+          result.write('[');
+
+          let prevChunk = null;
+
+          function sendData(error, data) {
+              if (error == null) {
+                  if (prevChunk) {
+                      result.write(`${JSON.stringify(prevChunk)},`);
+                  }
+
+                  const users = Array.from(data);
+
+                  prevChunk = { users };
+              }
+          }
+
+          function endOfJson() {
+              if (prevChunk) {
+                  result.write(JSON.stringify(prevChunk));
+              }
+              result.end(']');
+          }
+
+          this.agent.getTopUsersInSwitzerland(sendData, endOfJson);
+      });
+
     this.app.get('*', (request, result) => {
         result.status(404).send('Error 404 - Page not found');
     });

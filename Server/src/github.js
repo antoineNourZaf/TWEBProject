@@ -73,9 +73,6 @@ class Github {
                   languages.set(language, 1);
               }
 
-
-
-
             dataAreAvailable(null,  languages );
 
             if (result.links.next) {
@@ -91,6 +88,52 @@ class Github {
 
     fetchAndProcessData(url, this.credentials);
   }
+
+
+    /**
+     * Get all the opened issues.
+     * @param {function} dataAreAvailable The function to call when data are available.
+     * @param {function} noMoreData The function to call when there are no more data.
+     */
+    getTopUsersInSwitzerland(dataAreAvailable, noMoreData) {
+        const url = 'https://api.github.com/search/users?q=location:Switzerland&sort=followers&order=desc&per_page=50';
+        const users = new Map();
+        var i=0;
+
+        /**
+         * Function called until all the data are fetched.
+         * @param {string} tragetUrl The GitHub's API URL.
+         * @param {JSON object with username and token} credentials  The credentials to use
+         * to query GitHub.
+         */
+        function fetchAndProcessData(tragetUrl, credentials) {
+            request
+                .get(tragetUrl)
+                .auth(credentials.username, credentials.token)
+                .end((errors, result) => {
+                    if (errors == null) {
+
+                        const usersCollection = db.collection('users');
+
+                        for (var user in result.body.items)
+                        {
+                          console.log(i++);
+                           console.log(result.body.items[user].id);
+                        }
+
+
+                        dataAreAvailable(null,  users );
+
+                        noMoreData();
+
+                    } else {
+                        noMoreData();
+                    }
+                });
+        }
+
+        fetchAndProcessData(url, this.credentials);
+    }
 }
 
 module.exports = Github;
