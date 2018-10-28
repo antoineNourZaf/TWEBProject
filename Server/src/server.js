@@ -78,9 +78,38 @@ class Server {
       });
 
 
+      this.app.get('/api/repos', (request, result) => {
+          result.setHeader('Content-Type', 'application/json');
+
+          result.write('[');
+
+          let prevChunk = null;
+
+          function sendData(error, data) {
+              if (error == null) {
+                  if (prevChunk) {
+                      result.write(`${JSON.stringify(prevChunk)},`);
+                  }
+
+                  const users = data;
+
+                  prevChunk = { users };
+              }
+          }
+
+          function endOfJson() {
+              if (prevChunk) {
+                  result.write(JSON.stringify(prevChunk));
+              }
+              result.end(']');
+          }
+
+          this.agent.getRepositoriesInfos(sendData, endOfJson);
+      });
+
+
       this.app.get('/api/repos/:owner', (request, result) => {
           const owner  = request.params;
-          console.log(owner);
 
           result.setHeader('Content-Type', 'application/json');
 
@@ -94,7 +123,6 @@ class Server {
                       result.write(`${JSON.stringify(prevChunk)},`);
                   }
 
-                  console.log(data);
                   const repos = data;
 
 
@@ -110,6 +138,38 @@ class Server {
           }
 
           this.agent.getUserRepository(owner, sendData, endOfJson);
+      });
+
+
+      this.app.get('/api/languages', (request, result) => {
+
+          result.setHeader('Content-Type', 'application/json');
+
+          result.write('[');
+
+          let prevChunk = null;
+
+          function sendData(error, data) {
+              if (error == null) {
+                  if (prevChunk) {
+                      result.write(`${JSON.stringify(prevChunk)},`);
+                  }
+
+                  const repos = data;
+
+
+                  prevChunk = { repos };
+              }
+          }
+
+          function endOfJson() {
+              if (prevChunk) {
+                  result.write(JSON.stringify(prevChunk));
+              }
+              result.end(']');
+          }
+
+          this.agent.getLanguages(sendData, endOfJson);
       });
 
 
