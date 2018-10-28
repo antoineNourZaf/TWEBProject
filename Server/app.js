@@ -11,12 +11,16 @@ const port = process.env.PORT || 3000;
 // Enable CORS for the client app
 app.use(cors());
 
-app.get('/', (req, res, next) => {
-  client.swissUsers()
-    .then(user => res.send(user))
-    .catch(next);
+app.get('/', (req, res) => {
+  const swissUsers = client.swissUsers();
+  swissUsers.then(user => res.send(user));
 });
 
+app.get('/userCount', (req, res, next) => {
+  client.swissUsers()
+    .then(user => res.send(user.total_count))
+    .catch(next);
+});
 app.get('/langages', (req, res) => {
   res.send(client.langagesSwiss());
 });
