@@ -33,13 +33,19 @@ class Server {
 
                   const users = data;
 
-                  prevChunk = { users };
+                  prevChunk = { users }
+
+
+
+
+
               }
           }
 
           function endOfJson() {
               if (prevChunk) {
                   result.write(JSON.stringify(prevChunk));
+
               }
               result.end(']');
           }
@@ -143,10 +149,44 @@ class Server {
       });
 
 
+      this.app.get('/api/allrepos', (request, result) => {
+
+          result.setHeader('Content-Type', 'application/json');
+
+          result.write('[');
+
+          let prevChunk = null;
+
+          function sendData(error, data) {
+              if (error == null) {
+                  if (prevChunk) {
+                      result.write(`${JSON.stringify(prevChunk)},`);
+                  }
+
+                  const allRepos = data;
+
+
+                  prevChunk = { allRepos };
+              }
+          }
+
+          function endOfJson() {
+              if (prevChunk) {
+                  result.write(JSON.stringify(prevChunk));
+              }
+              result.end(']');
+          }
+
+          this.agent.getAllRepo(sendData, endOfJson);
+      });
+
+
       this.app.get('*', (request, result) => {
         result.status(404).send('Error 404 - Page not found');
     });
   }
+
+
 
   /**
      * Start the server.

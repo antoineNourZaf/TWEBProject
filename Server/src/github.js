@@ -3,8 +3,10 @@ const request = require('superagent');
 const fetch = require('node-fetch');
 const mongoClient = require('./mongo');
 
+
 class Github {
-  constructor(credentials) {
+
+    constructor(credentials) {
     console.log(credentials);
     this.credentials = credentials;
   }
@@ -20,6 +22,8 @@ class Github {
   reposLanguages(name) {
     return this.request(`/repos/${name}/languages`);
   }
+
+
 
   /*
 
@@ -44,10 +48,12 @@ class Github {
    * @param {function} noMoreData The function to call when there are no more data.
    */
   getTopUsersInSwitzerland(dataAreAvailable, noMoreData) {
-    const url = 'https://api.github.com/search/users?q=location:Switzerland&sort=followers&order=desc&per_page=50';
-    const users = new Map();
+    const url = 'https://api.github.com/search/users?q=location:Switzerland&sort=followers&order=desc&per_page=10';
+    const users =[];
     const i = 0;
-    /**
+    var urlDb = "mongodb://localhost:27017/";
+
+      /**
      * Function called until all the data are fetched.
      * @param {string} tragetUrl The GitHub's API URL.
      * @param {JSON object with username and token} credentials  The credentials to use
@@ -62,23 +68,36 @@ class Github {
             for (const user in result.body.items) {
               const idUser = result.body.items[user].id;
               const usernameUser = result.body.items[user].login;
-              // Ajouter données a la base de données
-              mongoClient.connect(url)
-                .then((client) => {
-                  const db = client.db();
-                  const collection = db.collection('User');
+                users.push({"name":usernameUser, "id":idUser});
 
-                  collection.insertOne({ idUser: usernameUser });
-                  db.close();
-                });
             }
             dataAreAvailable(null, users);
+
             noMoreData();
+
+              mongoClient.connect(urlDb, function(err, db) {
+                  if (err) throw err;
+                  var dbo = db.db("SwissStats");
+                  dbo.collection('User').drop();
+
+
+                  dbo.collection("User").insertMany(users, function(err, res) {
+                      if (err) throw err;
+                      console.log("users inserted");
+                      db.close();
+                  });
+              });
+
+
           } else {
             noMoreData();
           }
         });
     }
+
+
+
+
 
     fetchAndProcessData(url, this.credentials);
   }
@@ -91,11 +110,44 @@ class Github {
    * @param {function} noMoreData The function to call when there are no more data.
    */
   getUserRepository(owner, dataAreAvailable, noMoreData) {
-    const url = `https://api.github.com/search/repositories?q=@${owner.owner}`;
+    const url = `https://api.github.com/search/repositories?q=@`;
 
     const repos = new Map();
     const languages = new Map();
     const i = 0;
+    var urlDb = "mongodb://localhost:27017/";
+      const credentialsInternal=this.credentials;
+
+
+
+      var users;
+
+
+      mongoClient.connect(urlDb, function(err, db) {
+          if (err) throw err;
+          var dbo = db.db("SwissStats");
+          dbo.collection("User").find({}).toArray(function(err, users) {
+              if (err) throw err;
+
+              var n = users.length;
+              for (var i = 0; i < n; i++) {
+                  var user = users[i];
+
+                  var newUrl=url+user.name;
+                  fetchAndProcessData(newUrl, credentialsInternal);
+
+              }
+
+
+
+
+              db.close();
+          });
+      });
+
+
+
+
 
     /**
      * Function called until all the data are fetched.
@@ -143,10 +195,12 @@ class Github {
         });
     }
 
-    fetchAndProcessData(url, this.credentials);
   }
 
-  /**
+
+
+
+    /**
    * Get all the programming languages used by the top 50 users
    * @param {function} dataAreAvailable The function to call when data are available.
    * @param {function} noMoreData The function to call when there are no more data.
@@ -161,13 +215,13 @@ class Github {
 
     function callDBLanguages() {
       
-      mongoClient.connect(url)
+      mongoClient.connect('mongodb://localhost:27017/SwissStats')
         .then((client) => {
           const db = client.db().collection('SwissStats');
 
           languages = db.language.find().toArray();
           db.close();
-        })
+        });
     }
 
 
