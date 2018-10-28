@@ -5,7 +5,13 @@ const mongoClient = require('mongodb').MongoClient;
 const urlDB = 'A remplir';
 
 // Connexion
-mongoClient.connect(urlDB, (error, db) => {
-  if (error) throw error;
-  db.close();
+mongoClient.connect(url)
+  .then((client) => {
+    const db = client.db();
+    const collection = db.collection('SwissStats');
+    console.log('db crée !')
+    db.close();
+  });
 });
+
+module.exports = mongo;

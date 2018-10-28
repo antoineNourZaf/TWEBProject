@@ -2,7 +2,8 @@
 require('dotenv/config');
 const express = require('express');
 const cors = require('cors');
-const Github = require('./src/Github');
+const Github = require('./src/github');
+const mongo = require('./src/mongo');
 
 const client = new Github({ token: process.env.OAUTH_TOKEN });
 const app = express();
