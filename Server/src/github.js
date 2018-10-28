@@ -43,7 +43,7 @@ class Github {
         // Compter leur repos et retourner la somme
         const array = JSON.parse(users);
     }
-    
+
 
 
     /**
@@ -168,7 +168,6 @@ class Github {
          * Function called until all the data are fetched.
          */
         function callDBLanguages() {
-            if (errors == null) {
 
 
                 languages.push("PHP");
@@ -181,9 +180,7 @@ class Github {
                 dataAreAvailable(null, languages);
                 noMoreData();
 
-            } else {
-                noMoreData();
-            }
+            
         }
 
 
