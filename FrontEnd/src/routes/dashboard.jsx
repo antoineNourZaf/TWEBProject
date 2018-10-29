@@ -6,7 +6,6 @@ var dashRoutes = [
         name: "Statistics CH",
         icon: "nc-icon nc-bank",
         component: Dashboard,
-        valueSelect: []
     },
     {redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard"}
 ];

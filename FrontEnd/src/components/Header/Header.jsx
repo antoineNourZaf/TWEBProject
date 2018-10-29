@@ -134,15 +134,38 @@ class Header extends React.Component {
 
     onChangeFunc(event) {
         let values = event.value;
-        console.log(event);
-
+        var data=[];
 
         for(var value2 in event)
         {
-            console.log(event[value2]);
+            data.push({name:event[value2]["label"]});
 
 
         }
+
+
+        var dataLanguages = [];
+
+        fetch('http://localhost:9090/api/repos')
+            .then(response => {
+                return response.json();
+            }).then(dataLanguage => {
+
+
+             for(var language in data)
+             {
+                 dataLanguages.push({name:data[language]["name"], data:dataLanguage[0]["repos2"][data[language]["name"]]});
+
+             }
+
+             console.log(dataLanguages);
+
+             // TODO regarde comment je peux récupérer cette variable dans la vue et affiche les infos utiles
+             this.props.dataDashboard=dataLanguages;
+
+        });
+
+
 
 
 
