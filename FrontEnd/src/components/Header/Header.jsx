@@ -34,8 +34,10 @@ class Header extends React.Component {
             isOpen: false,
             dropdownOpen: false,
             color: "transparent",
-            value: ''
-        };
+            value: '',
+            dataLanguages:[]
+
+    };
         this.toggle = this.toggle.bind(this);
         this.dropdownToggle = this.dropdownToggle.bind(this);
     }
@@ -135,6 +137,9 @@ class Header extends React.Component {
     onChangeFunc(event) {
         let values = event.value;
         var data=[];
+        var temp=[];
+
+
 
         for(var value2 in event)
         {
@@ -144,7 +149,6 @@ class Header extends React.Component {
         }
 
 
-        var dataLanguages = [];
 
         fetch('http://localhost:9090/api/repos')
             .then(response => {
@@ -154,22 +158,32 @@ class Header extends React.Component {
 
              for(var language in data)
              {
-                 dataLanguages.push({name:data[language]["name"], data:dataLanguage[0]["repos2"][data[language]["name"]]});
+                 temp.push({name:data[language]["name"], data:dataLanguage[0]["repos2"][data[language]["name"]]});
 
              }
 
-             console.log(dataLanguages);
-
-             // TODO regarde comment je peux récupérer cette variable dans la vue et affiche les infos utiles
-             this.props.dataDashboard=dataLanguages;
-
         });
+
+        this.setState({dataLanguages:temp});
+
+        console.log(this.state.dataLanguages);
+
+        // TODO regarde comment je peux récupérer cette variable dans la vue et affiche les infos utiles
+
+        this.update.bind(this);
 
 
 
 
 
     }
+
+
+    update = (dataLanguages) => {
+        console.log("hello");
+        console.log(dataLanguages);
+        this.props.onUpdate(dataLanguages);
+    };
 
     render() {
 
@@ -229,7 +243,7 @@ class Header extends React.Component {
                         <form style={{flex: 0.7}}>
                             <Select isMulti
                                     options={languagesOptions}
-                                    onChange={this.onChangeFunc}
+                                    onChange={this.onChangeFunc.bind(this)}
                             />
                         </form>
                     </Collapse>
