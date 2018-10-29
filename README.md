@@ -1,28 +1,20 @@
-# ga-server
-SwissStats
+# SwissStats
 
-
-## Running the app
+## Running the app (server)
 
 ### 1. Clone this repo
 
 ```sh
-$ git clone https://github.com/heig-vd-tweb/express-server-skeleton.git
+$ git clone https://github.com/antoineNourZaf/TWEBProject.git
 ```
 
-### 2. Add Environment Variables
-Copy the `.env.default` file and rename it to `.env`.
-```sh
-$ cp .env.default .env
-```
+### 2. Install project dependencies
+Open a terminal in the Server repository and run
 
-then edit the `OAUTH_TOKEN` environment variable. You can use your github personal access token which you can find in [Github developer settings](https://github.com/settings/tokens)
-
-### 3. Install project dependencies
 ```sh
 $ npm install
 ```
-### 4. Run the app
+### 3. Run the server
 
 You can start the server by running
 ```$
@@ -33,5 +25,4 @@ or you can start the server in development mode. This command uses [nodemon](htt
 ```sh
 $ npm run dev
 ```
-
-Finally, use `npm test` to run tests.
+You can run the frontEnd by the same way but don't forget to change the directory
