@@ -115,9 +115,6 @@ class Header extends React.Component {
 
             let optionsLanguages = data[0]["languagesUsedInSwitzerland"].map((option) => option);
 
-
-            console.log(optionsLanguages);
-
             this.setState({
                 languages: optionsLanguages,
             });
@@ -153,10 +150,8 @@ class Header extends React.Component {
 
     render() {
 
-
         let languagesOptions = this.state.languages;
         var val = '';
-        console.log(languagesOptions);
 
         /*
 
@@ -210,7 +205,7 @@ class Header extends React.Component {
                     >
                         <form style={{flex: 0.7}}>
                             <Select isMulti
-                                    options={this.state.languages}
+                                    options={languagesOptions}
                                     onChange={this.onChangeFunc}
                             />
                         </form>

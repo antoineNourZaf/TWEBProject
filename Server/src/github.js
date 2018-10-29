@@ -140,7 +140,9 @@ class Github {
 
 
 
-              db.close();
+
+
+
           });
       });
 
@@ -176,11 +178,12 @@ class Github {
             }
 
 
-            dataAreAvailable(null, repos);
 
 
             if (result.links.next) {
               fetchAndProcessData(result.links.next, credentials);
+              dataAreAvailable(null, repos);
+
             } else {
               noMoreData();
             }
@@ -209,14 +212,30 @@ class Github {
      */
 
     function callDBLanguages() {
-      
-      mongoClient.connect('mongodb://localhost:27017/SwissStats')
-        .then((client) => {
-          const db = client.db().collection('SwissStats');
 
-          languages = db.language.find().toArray();
-          db.close();
+        var urlDb = "mongodb://localhost:27017/";
+
+        var languages = [];
+
+        mongoClient.connect(urlDb, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("SwissStats");
+            dbo.collection("Language").find({}).toArray(function(err, language) {
+                if (err) throw err;
+
+                var n = language.length;
+                for (var i = 0; i < n; i++) {
+                    languages.push({label:language[i]["name"], value:language[i]["name"]});
+
+                }
+                console.log(languages);
+                dataAreAvailable(null,languages);
+                noMoreData();
+            });
         });
+
+
+
     }
 
 

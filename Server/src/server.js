@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const mongoClient = require('./mongo');
+
 
 class Server {
   /**
@@ -58,7 +60,8 @@ class Server {
 
       this.app.get('/api/repos', (request, result) => {
           const owner  = request.params;
-
+          var urlDb = "mongodb://localhost:27017/";
+          var languages= []
           result.setHeader('Content-Type', 'application/json');
 
           result.write('[');
@@ -72,6 +75,37 @@ class Server {
                   }
 
                   const repos2 = data;
+
+
+                  var i=0;
+                  for(var language in repos2)
+                  {
+
+                      if(language=='null')
+                      {
+                          languages.push({name:"Others"});
+
+                      }
+                      else
+                      {
+                          languages.push({name:language});
+
+                      }
+                  }
+
+                  console.log(languages);
+                  mongoClient.connect(urlDb, function(err, db) {
+                      if (err) throw err;
+                      var dbo = db.db("SwissStats");
+                      dbo.collection('Language').drop();
+
+
+                      dbo.collection("Language").insertMany(languages, function(err, res) {
+                          if (err) throw err;
+                          console.log("language inserted");
+                          db.close();
+                      });
+                  });
 
 
                   prevChunk = { repos2 };
