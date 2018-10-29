@@ -105,15 +105,14 @@ class Github {
 
   /**
    * Get all user's repositories
-   * @param {string} owner The repositories owner
    * @param {function} dataAreAvailable The function to call when data are available.
    * @param {function} noMoreData The function to call when there are no more data.
    */
-  getUserRepository(owner, dataAreAvailable, noMoreData) {
+  getUserRepository( dataAreAvailable, noMoreData) {
     const url = `https://api.github.com/search/repositories?q=@`;
 
     const repos = new Map();
-    const languages = new Map();
+    const languages = [];
     const i = 0;
     var urlDb = "mongodb://localhost:27017/";
       const credentialsInternal=this.credentials;
@@ -135,18 +134,15 @@ class Github {
 
                   var newUrl=url+user.name;
                   fetchAndProcessData(newUrl, credentialsInternal);
+                  break;
 
               }
-
 
 
 
               db.close();
           });
       });
-
-
-
 
 
     /**
@@ -186,7 +182,6 @@ class Github {
             if (result.links.next) {
               fetchAndProcessData(result.links.next, credentials);
             } else {
-              console.log(repos);
               noMoreData();
             }
           } else {

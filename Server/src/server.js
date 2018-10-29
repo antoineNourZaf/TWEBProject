@@ -54,37 +54,9 @@ class Server {
       });
 
 
+
+
       this.app.get('/api/repos', (request, result) => {
-          result.setHeader('Content-Type', 'application/json');
-
-          result.write('[');
-
-          let prevChunk = null;
-
-          function sendData(error, data) {
-              if (error == null) {
-                  if (prevChunk) {
-                      result.write(`${JSON.stringify(prevChunk)},`);
-                  }
-
-                  const users = data;
-
-                  prevChunk = { users };
-              }
-          }
-
-          function endOfJson() {
-              if (prevChunk) {
-                  result.write(JSON.stringify(prevChunk));
-              }
-              result.end(']');
-          }
-
-          this.agent.getRepositoriesInfos(sendData, endOfJson);
-      });
-
-
-      this.app.get('/api/repos/:owner', (request, result) => {
           const owner  = request.params;
 
           result.setHeader('Content-Type', 'application/json');
@@ -99,10 +71,10 @@ class Server {
                       result.write(`${JSON.stringify(prevChunk)},`);
                   }
 
-                  const repos = data;
+                  const repos2 = data;
 
 
-                  prevChunk = { repos };
+                  prevChunk = { repos2 };
               }
           }
 
@@ -113,7 +85,7 @@ class Server {
               result.end(']');
           }
 
-          this.agent.getUserRepository(owner, sendData, endOfJson);
+          this.agent.getUserRepository(sendData, endOfJson);
       });
 
 
