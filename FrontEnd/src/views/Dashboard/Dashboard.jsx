@@ -21,11 +21,6 @@ import {
 } from "variables/charts.jsx";
 
 class Dashboard extends React.Component {
-    constructor(props) {
-        super(props);
-        console.log("finish ",this.props);
-    }
-
   render() {
     return (
       <div className="content">
@@ -42,7 +37,7 @@ class Dashboard extends React.Component {
                   <Col xs={7} md={8}>
                     <div className="numbers">
                       <p className="card-category">Nb Projects </p>
-                      <CardTitle tag="p">{this.props.data}</CardTitle>
+                      <CardTitle tag="p">{this.props.dataDashboard}</CardTitle>
                     </div>
                   </Col>
                 </Row>

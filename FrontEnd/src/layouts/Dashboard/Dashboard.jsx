@@ -6,7 +6,7 @@ import {Route, Switch, Redirect} from "react-router-dom";
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
-
+import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
 import dashboardRoutes from "routes/dashboard.jsx";
 
@@ -18,18 +18,15 @@ class Dashboard extends React.Component {
         this.state = {
             backgroundColor: "black",
             activeColor: "info",
-            dataLanguages:["test"],
+            dataLanguages:[]
+        }
+    }
 
+    onUpdate = (val) => {
+        this.setState({
+            dataLanguages: val
+        })
     };
-    }
-
-
-
-    handleLanguage = (val) => {
-        this.setState({dataLanguages: val});
-        console.log("updated",this.state.dataLanguages);
-
-    }
 
     componentDidMount() {
         if (navigator.platform.indexOf("Win") > -1) {
@@ -60,6 +57,7 @@ class Dashboard extends React.Component {
     }
 
     render() {
+
         return (
             <div className="wrapper">
                 <Sidebar
@@ -69,21 +67,19 @@ class Dashboard extends React.Component {
                     activeColor={this.state.activeColor}
                 />
                 <div className="main-panel" ref="mainPanel">
-                    <Header {...this.props} func={this.handleLanguage}/>
-                    <Dashboard/>
+                    <Header {...this.props} />
                     <Switch>
                         {dashboardRoutes.map((prop, key) => {
                             if (prop.pro) {
                                 return null;
                             }
                             if (prop.redirect) {
-                                return <Redirect from={prop.path} to={prop.pathTo} key={key} />;
+                                return <Redirect from={prop.path} to={prop.pathTo} key={key}/>;
                             }
                             return (
-                                <Route path={prop.path} component={prop.component} key={key} />
+                                <Route path={prop.path} component={prop.component} key={key}/>
                             );
-                        }) }
-
+                        })}
                     </Switch>
                     <Footer fluid/>
                 </div>

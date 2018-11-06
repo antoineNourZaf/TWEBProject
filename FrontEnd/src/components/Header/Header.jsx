@@ -29,7 +29,6 @@ import dashboardRoutes from "routes/dashboard.jsx";
 class Header extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             languages: [],
             isOpen: false,
@@ -137,9 +136,8 @@ class Header extends React.Component {
 
     onChangeFunc(event) {
         let values = event.value;
-        let data=[];
-        let temp=[];
-
+        var data=[];
+        var temp=[];
 
 
 
@@ -150,10 +148,13 @@ class Header extends React.Component {
 
         }
 
+
+
         fetch('http://localhost:9090/api/repos')
             .then(response => {
                 return response.json();
             }).then(dataLanguage => {
+
 
              for(var language in data)
              {
@@ -161,9 +162,16 @@ class Header extends React.Component {
 
              }
 
-            this.setState({dataLanguages: temp});
-            this.props.func(temp);
         });
+
+        this.setState({dataLanguages:temp});
+
+        console.log(this.state.dataLanguages);
+
+        // TODO regarde comment je peux récupérer cette variable dans la vue et affiche les infos utiles
+
+        this.update.bind(this);
+
 
 
 
@@ -171,6 +179,11 @@ class Header extends React.Component {
     }
 
 
+    update = (dataLanguages) => {
+        console.log("hello");
+        console.log(dataLanguages);
+        this.props.onUpdate(dataLanguages);
+    };
 
     render() {
 
